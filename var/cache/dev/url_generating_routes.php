@@ -4,4 +4,7 @@
 
 return [
     '_preview_error' => [['code', '_format'], ['_controller' => 'error_controller::preview', '_format' => 'html'], ['code' => '\\d+'], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', '\\d+', 'code', true], ['text', '/_error']], [], [], []],
+    'index' => [[], ['_controller' => 'App\\Controller\\Index::index'], [], [['text', '/']], [], [], []],
+    'login' => [[], ['_controller' => 'App\\Controller\\Login::index'], [], [['text', '/login/']], [], [], []],
+    'enter' => [[], ['_controller' => 'App\\Controller\\Login::enter'], [], [['text', '/login/enter']], [], [], []],
 ];

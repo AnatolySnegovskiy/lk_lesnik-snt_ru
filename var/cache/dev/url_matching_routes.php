@@ -8,6 +8,9 @@
 return [
     false, // $matchHost
     [ // $staticRoutes
+        '/' => [[['_route' => 'index', '_controller' => 'App\\Controller\\Index::index'], null, null, null, false, false, null]],
+        '/login' => [[['_route' => 'login', '_controller' => 'App\\Controller\\Login::index'], null, null, null, true, false, null]],
+        '/login/enter' => [[['_route' => 'enter', '_controller' => 'App\\Controller\\Login::enter'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'
