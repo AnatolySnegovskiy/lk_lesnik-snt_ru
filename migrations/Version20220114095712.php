@@ -27,7 +27,7 @@ final class Version20220114095712 extends AbstractMigration implements Container
     public function up(Schema $schema): void
     {
         $user = new User();
-        $user->setPersonalAccount('admin');
+        $user->setPersonalAccount('SuperAdmin1001');
         $passwordHasherFactory = new PasswordHasherFactory([
             User::class => ['algorithm' => 'auto'],
             PasswordAuthenticatedUserInterface::class => [
