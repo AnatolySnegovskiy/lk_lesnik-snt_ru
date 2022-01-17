@@ -1,20 +1,66 @@
 <?php
 
-namespace App\Security;
+namespace App\Entity;
 
+use App\Repository\UserRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToOne;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"personal_account"}, message="There is already an account with this personal_account")
+ */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=180, unique=true)
+     */
     private $personal_account;
 
+    /**
+     * @ORM\Column(type="json")
+     */
     private $roles = [];
 
     /**
      * @var string The hashed password
+     * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @OneToOne(targetEntity="UserInfo", mappedBy="user", cascade={"persist", "remove"})
+     * @var UserInfo
+     */
+    private $userInfo;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isVerified = false;
+
+    public function __construct()
+    {
+        if (empty($this->userInfo)) {
+            $this->userInfo = new UserInfo();
+            $this->userInfo->setUser($this);
+        }
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     public function getPersonalAccount(): ?string
     {
@@ -98,5 +144,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return UserInfo
+     */
+    public function getUserInfo(): UserInfo
+    {
+        return $this->userInfo;
+    }
+
+    /**
+     * @param UserInfo $userInfo
+     * @return User
+     */
+    public function setUserInfo(UserInfo $userInfo): self
+    {
+        $this->userInfo = $userInfo;
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
     }
 }

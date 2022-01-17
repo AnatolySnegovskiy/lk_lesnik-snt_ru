@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserListController!{% endblock %}
+
+{% block body %}
+    <a href="{{ path('app_add_user') }}" class="nav-link px-2">Add User</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Счет</th>
+            <th scope="col">Имя</th>
+            <th scope="col">телефон</th>
+            <th scope="col">почта</th>
+            <th scope="col">Адрес</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <th scope="row">{{ user.getId }}</th>
+                <td>{{ user.getPersonalAccount }}</td>
+                <td>{{ user.getUserInfo.getName }}</td>
+                <td>{{ user.getUserInfo.getPhone }}</td>
+                <td>{{ user.getUserInfo.getEmail }}</td>
+                <td>{{ user.getUserInfo.getAddress }}</td>
+                <td>
+                    {% if 'ROLE_ADMIN' not in  user.getRoles %}
+                        <a href="{{ path('app_remove_user', {id: user.id}) }}" class="d-inline px-2">Remove User</a>
+                        <a href="{{ path('app_reset_password_user', {id: user.id}) }}" class="d-inline px-2">Reset Password</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

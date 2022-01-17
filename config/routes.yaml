@@ -1,9 +1,9 @@
 index:
   path: /
   controller: App\Controller\Index::index
-login:
-  path: /login/
-  controller: App\Controller\Login::index
-enter:
-  path: /login/enter
-  controller: App\Controller\Login::enter
+app_login:
+  path: /login
+  controller: App\Controller\LoginController::index
+app_logout:
+  path: /logout
+  controller: App\Controller\LoginController::logOut
